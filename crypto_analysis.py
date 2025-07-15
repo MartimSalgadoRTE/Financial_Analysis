@@ -12,8 +12,22 @@ def fetch_data():
     return pd.DataFrame(response.json())
 
 def generate_report(df):
-    df = df[['name', 'symbol', 'current_price', 'price_change_percentage_30d_in_currency',
-             'price_change_percentage_90d_in_currency', 'price_change_percentage_180d_in_currency']]
+    # Ensure required columns are present, fill missing with NaN
+    expected_cols = {
+        'name': None,
+        'symbol': None,
+        'current_price': None,
+        'price_change_percentage_30d_in_currency': None,
+        'price_change_percentage_90d_in_currency': None,
+        'price_change_percentage_180d_in_currency': None,
+    }
+
+    # Assign available data or NaN if missing
+    for col in expected_cols:
+        if col not in df.columns:
+            df[col] = float('nan')
+
+    df = df[list(expected_cols.keys())]
 
     df.set_index('symbol')[['price_change_percentage_30d_in_currency',
                             'price_change_percentage_90d_in_currency',
