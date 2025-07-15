@@ -20,7 +20,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install requests pandas matplotlib fpdf
+          pip install requests pandas matplotlib fpdf openai
 
       - name: Run crypto analysis
         run: python crypto_analysis.py
