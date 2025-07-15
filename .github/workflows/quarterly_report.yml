@@ -1,18 +1,45 @@
-- name: Email report
-  uses: dawidd6/action-send-mail@v3
-  with:
-    server_address: smtp.gmail.com
-    server_port: 587
-    username: ${{ secrets.EMAIL_USERNAME }}
-    password: ${{ secrets.EMAIL_PASSWORD }}
-    subject: Quarterly Crypto Capital Flow Report
-    to: martim.salgado@rte.pt
-    from: ${{ secrets.EMAIL_USERNAME }}
-    body: |
-      Hello Martim,
+name: Quarterly Crypto Report
 
-      Please find attached your quarterly crypto capital flow report.
+on:
+  schedule:
+    - cron: '0 12 1 */3 *'  # every 3 months on 1st day at noon UTC
+  workflow_dispatch:
 
-      Best,
-      Your Automated Analyst
-    attachments: crypto_report.pdf
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          pip install requests pandas matplotlib fpdf
+
+      - name: Run crypto analysis
+        run: python crypto_analysis.py
+
+      - name: Send email report via Gmail
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 587
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: Quarterly Crypto Capital Flow Report
+          to: martim.salgado@rte.pt
+          from: ${{ secrets.EMAIL_USERNAME }}
+          body: |
+            Hello Martim,
+
+            Attached is your quarterly crypto capital flow analysis PDF report.
+
+            Best,
+            Your Automated Analyst
+          attachments: crypto_report.pdf
