@@ -1,4 +1,3 @@
-- run: pip install requests pandas matplotlib fpdf
 - name: Email report
   uses: dawidd6/action-send-mail@v3
   with:
