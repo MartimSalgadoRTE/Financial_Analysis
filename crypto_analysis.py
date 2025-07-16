@@ -5,7 +5,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from fpdf import FPDF
 from datetime import datetime
-import openai
+#import openai
+from openai import OpenAI
 import os
 
 # Fetch market data
@@ -34,9 +35,9 @@ def simulate_long_returns():
 
 # Generate executive summary using OpenAI GPT-4o
 def generate_summary(crypto_data):
-    openai.api_key = os.getenv("OPENAIKEY")
+    client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-    prompt = f"""
+    prompt = f\"\"\"
 You are a strategic analyst writing an executive summary for a quarterly crypto capital flow report.
 
 Use the following crypto data to highlight short-term winners, long-term potential, capital efficiency, and quantum disruption risk. Write 1 page (around 150-200 words) in a sharp, insightful tone.
@@ -47,14 +48,15 @@ Data:
 {crypto_data}
 
 Your audience is Martim Salgado, an advanced investor and strategist. Write clearly, analytically, and with conviction.
-"""
+\"\"\"
 
-    response = openai.ChatCompletion.create(
+    response = client.chat.completions.create(
         model="gpt-4o",
         messages=[{"role": "user", "content": prompt}],
         temperature=0.7
     )
-    return response['choices'][0]['message']['content']
+
+    return response.choices[0].message.content
 
 # Generate report
 def generate_report(df, long_returns):
