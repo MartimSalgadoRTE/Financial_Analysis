@@ -37,7 +37,7 @@ def simulate_long_returns():
 def generate_summary(crypto_data):
     client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-    prompt = f\"\"\"
+    prompt = f"""
 You are a strategic analyst writing an executive summary for a quarterly crypto capital flow report.
 
 Use the following crypto data to highlight short-term winners, long-term potential, capital efficiency, and quantum disruption risk. Write 1 page (around 150-200 words) in a sharp, insightful tone.
@@ -48,7 +48,7 @@ Data:
 {crypto_data}
 
 Your audience is Martim Salgado, an advanced investor and strategist. Write clearly, analytically, and with conviction.
-\"\"\"
+"""
 
     response = client.chat.completions.create(
         model="gpt-4o",
