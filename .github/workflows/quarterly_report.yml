@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
   
 env:
-  OPENAI_API_KEY: ${{ secrets.OPENAIKEY }}
+  OPENAI_KEY_CRYPTO_REPORT: ${{ secrets.OPENAI_KEY_CRYPTO_REPORT }}
 
 jobs:
   build:
