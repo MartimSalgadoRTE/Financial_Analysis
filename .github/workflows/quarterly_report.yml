@@ -27,6 +27,9 @@ jobs:
 
       - name: Run crypto analysis
         run: python crypto_analysis.py
+        env:
+           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          
 
       - name: Send email report via Gmail
         uses: dawidd6/action-send-mail@v3
