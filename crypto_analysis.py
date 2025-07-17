@@ -35,7 +35,7 @@ def simulate_long_returns():
 
 # Generate executive summary using OpenAI GPT-4o
 def generate_summary(crypto_data):
-    client = OpenAI(api_key=os.getenv("OPENAIKEY"))
+    client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
     prompt = f"""
 You are a strategic analyst writing an executive summary for a quarterly crypto capital flow report.
